@@ -61,7 +61,7 @@ func (u *BasicUi) Ask(query string) (string, error) {
 }
 
 func (u *BasicUi) AskOrDefault(query string, defaultValue string) (string, error) {
-	var val, err = u.ask(query, false)
+	var val, err = u.ask(query + " [" + defaultValue + "]", false)
 	if val != "" {
 		return val, err
 	}
