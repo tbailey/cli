@@ -21,6 +21,11 @@ type Ui interface {
 	// returned as the given string, or an error.
 	Ask(string) (string, error)
 
+	// Ask asks the user for input using the given query. If no value is
+	// entered, the provided default is used.The response is returned as
+	// the given string, or an error.
+	AskOrDefault(string, string) (string, error)
+
 	// AskSecret asks the user for input using the given query, but does not echo
 	// the keystrokes to the terminal.
 	AskSecret(string) (string, error)
@@ -53,6 +58,15 @@ type BasicUi struct {
 
 func (u *BasicUi) Ask(query string) (string, error) {
 	return u.ask(query, false)
+}
+
+func (u *BasicUi) AskOrDefault(query string, defaultValue string) (string, error) {
+	var val, err = u.ask(query, false)
+	if val != "" {
+		return val, err
+	}
+
+	return defaultValue, err
 }
 
 func (u *BasicUi) AskSecret(query string) (string, error) {
